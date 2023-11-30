@@ -1,0 +1,119 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: "Ubuntu", sans-serif;
+}
+
+body {
+  background-attachment: fixed;
+  background-image: url("/img/fondo.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+  height: 100vh;
+}
+
+.contenido {
+  background-color: white;
+  border-radius: 10px;
+  width: 25vw;
+  height: 45vh;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.contenido2 {
+    background-color: white;
+    border-radius: 10px;
+    width: 25vw;
+    height: 60vh;
+    padding: 20px;
+  
+    display: flex;
+    flex-direction: column;
+  }
+
+h1 {
+  text-align: center;
+  margin: 25px 20px;
+}
+
+label {
+  width: 30%;
+  margin: 0 20px;
+  font-weight: 400;
+  display: inline-block;
+}
+
+input {
+  width: 50%;
+  padding: 12px 5px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 2px solid #c3c3c3;
+  border-radius: 5px;
+}
+
+div#link {
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+a {
+    width: 100%;
+    text-decoration: none;
+}
+
+a:hover {
+    width: 100%;
+    font-weight: bold;
+    transition: linear 0.3s;
+    text-decoration: none;
+}
+
+a:active {
+    background-color: #0080ff;
+}
+
+a:link {
+    color: #0080ff;
+}
+
+button[type="submit"],
+button[type="reset"] {
+  background-color: #0080ff;
+  color: white;
+  border: 0;
+  border: 2px solid #0080ff;
+  border-radius: 10px;
+  font-size: 16px;
+  padding: 20px;
+  margin: 10px;
+
+  width: 50%;
+  height: 25%;
+}
+
+button[type="submit"]:hover,
+button[type="reset"]:hover {
+  background-color: white;
+  color: #0080ff;
+  cursor: pointer;
+  border: 2px solid #0080ff;
+  border-radius: 10px;
+  transition: linear 0.2s;
+}
+
+.botones {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
