@@ -1,11 +1,20 @@
 // Create express app
-// index.js
+const https = require('https');
+const fs = require('fs');
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 
 const app = express();
 const PORT = 3000;
+const HTTPS_PORT = 3443;
+
+https.createServer({
+  cert: fs.readFileSync('ca.crt'),
+  key: fs.readFileSync('ca.key')
+},app).listen(HTTPS_PORT, function(){
+ console.log(`Servidor https correindo en el puerto ${HTTPS_PORT}`);
+});
 
 // Conectar a la base de datos SQLite3
 const db = new sqlite3.Database('db.sqlite', (err) => {
