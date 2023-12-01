@@ -133,7 +133,7 @@ button[type="reset"]:hover {
   <body class="body_registro">
     <div class="contenido2">
       <h1>Registro</h1>
-      <form action="/guardarUsuario" method="POST">
+      <form id="formulario" action="/guardarUsuario" method="POST">
         <label for="nombre_text">Username: </label
         ><input type="text" name="username_registrar" id="username_registrar" required /><br /><br />
         <label for="email_text">Email: </label
@@ -146,10 +146,11 @@ button[type="reset"]:hover {
           <p>Si tienes cuenta ves a <a href="/login">login</a></p>
         </div>
         <div class="botones">
-          <button type="submit">Registrar</button>
+          <button type="submit" id="registrar">Registrar</button>
           <button type="reset">Resetear</button>
         </div>
       </form>
     </div>
+    <!-- <script src="validaciones.js"></script> -->
   </body>
 </html>
