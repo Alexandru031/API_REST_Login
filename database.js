@@ -13,7 +13,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name text, 
             email text UNIQUE, 
-            password text, 
+            password text,
+            token text,
             CONSTRAINT email_unique UNIQUE (email)
             )`);  
     }

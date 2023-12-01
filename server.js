@@ -4,14 +4,16 @@ const fs = require('fs');
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const PORT = 3000;
 const HTTPS_PORT = 3443;
 
+
 https.createServer({
-  cert: fs.readFileSync('ca.crt'),
-  key: fs.readFileSync('ca.key')
+  cert: fs.readFileSync('certificados/ca.crt'),
+  key: fs.readFileSync('certificados/ca.key')
 },app).listen(HTTPS_PORT, function(){
  console.log(`Servidor https correindo en el puerto ${HTTPS_PORT}`);
 });
@@ -27,7 +29,7 @@ const db = new sqlite3.Database('db.sqlite', (err) => {
 
 // Crear tabla si no existe
 db.serialize(() => {
-  db.run("CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, email TEXT, password TEXT)");
+  db.run("CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, email TEXT, password TEXT, token TEXT)");
 });
 
 // Configurar middleware para parsear el body de las solicitudes
@@ -64,7 +66,12 @@ app.post('/guardarUsuario', (req, res) => {
     return res.redirect("/registrar")
   }
 
-  db.run('INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)', [username_registrar, email, bcrypt.hashSync(contrasena, 10)], function(err) {
+    const token = jwt.sign({
+    name: username_registrar,
+    password: contrasena
+}, "secreto")
+
+  db.run('INSERT INTO usuarios (nombre, email, password, token) VALUES (?, ?, ?, ?)', [username_registrar, email, bcrypt.hashSync(contrasena, 10), token], function(err) {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
