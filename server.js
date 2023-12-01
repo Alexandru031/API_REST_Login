@@ -34,7 +34,12 @@ app.get('/login', (req, res) => {
   res.sendFile(__dirname + '/login.html');
 });
 
-// GUARDAR DATOS EN LA BASES DE DATOS
+// MOSTRAR LA PAGINA DE ACCEDER
+app.get('/acceder', (req, res) => {
+  res.sendFile(__dirname + '/acceder.html');
+});
+
+// GUARDAR EL REGISTRO EN LA BASE DE DATOS
 app.post('/guardarUsuario', (req, res) => {
   const { username_registrar, email, contrasena, contrasena_intento} = req.body;
   if (contrasena != contrasena_intento) {
@@ -76,6 +81,39 @@ app.get("/api/usuarios", (req, res, next) => {
           "data":rows
       })
     });
+});
+
+// VALIDA EL NOMBRE DE USUARIO Y CONTRASEÑA EN LA BD Y ACCEDE
+app.post('/accederLogin', (req, res) => {
+  const { username_login, contrasena_login } = req.body;
+  var sql = "SELECT nombre, password FROM usuarios WHERE nombre = ?";
+  var params = [username_login];
+  
+  db.get(sql, params, (err, row) => {
+    if (err) {
+      res.status(400).json({ "error": err.message });
+      return;
+    }
+    
+    if (!row) { // row es el nombre de usuario 
+      res.status(400).json({ "error": "Usuario no encontrado" });
+      return;
+    }
+
+    bcrypt.compare(contrasena_login, row.password, (bcryptErr, result) => {
+      if (bcryptErr) {
+        res.status(500).json({ "error": bcryptErr.message });
+        return;
+      }
+      
+      if (!result) {
+        res.status(400).json({ "error": "La contraseña es incorrecta" });
+        return;
+      }
+      
+      res.redirect("/acceder");
+    });
+  });
 });
 
 // Iniciar el servidor

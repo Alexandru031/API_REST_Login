@@ -32,7 +32,7 @@
         background-color: white;
         border-radius: 10px;
         width: 25vw;
-        height: 45vh;
+        height: 25vh;
         padding: 20px;
 
         display: flex;
@@ -44,50 +44,7 @@
         margin: 25px 20px;
       }
 
-      label {
-        width: 30%;
-        margin: 0 20px;
-        font-weight: 400;
-        display: inline-block;
-      }
-
-      input {
-        width: 50%;
-        padding: 12px 5px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 2px solid #c3c3c3;
-        border-radius: 5px;
-      }
-
-      div#link {
-        padding: 10px;
-        text-align: center;
-        width: 100%;
-      }
-
-      a {
-        width: 100%;
-        text-decoration: none;
-      }
-
-      a:hover {
-        width: 100%;
-        font-weight: bold;
-        transition: linear 0.3s;
-        text-decoration: none;
-      }
-
-      a:active {
-        background-color: #0080ff;
-      }
-
-      a:link {
-        color: #0080ff;
-      }
-
-      button[type="submit"],
-      button[type="reset"] {
+      button[type="submit"] {
         background-color: #0080ff;
         color: white;
         border: 0;
@@ -101,8 +58,7 @@
         height: 25%;
       }
 
-      button[type="submit"]:hover,
-      button[type="reset"]:hover {
+      button[type="submit"]:hover {
         background-color: white;
         color: #0080ff;
         cursor: pointer;
@@ -120,28 +76,10 @@
   </head>
   <body>
     <div class="contenido">
-      <h1>Login</h1>
-      <form action="/accederLogin" method="POST">
-        <label for="nombre_text">Username: </label
-        ><input
-          type="text"
-          name="username_login"
-          id="username_login"
-          required
-        /><br /><br />
-        <label for="nombre_text">Contraseña: </label
-        ><input
-          type="password"
-          name="contrasena_login"
-          id="contrasena_login"
-          required
-        /><br /><br />
-        <div id="link">
-          <p>Si no tienes cuenta ves a <a href="/registrar">registrar</a></p>
-        </div>
+      <h1>Enhonrabuena has accedido a tu perfil :)</h1>
+      <form action="/login" method="GET">
         <div class="botones">
-          <button type="submit">Acceder</button>
-          <button type="reset">Resetear</button>
+          <button type="submit">Volver a Login</button>
         </div>
       </form>
     </div>
