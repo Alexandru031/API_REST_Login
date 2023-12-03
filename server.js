@@ -2,7 +2,6 @@
 const https = require("https");
 const fs = require("fs");
 const express = require("express");
-const sqlite3 = require("sqlite3").verbose();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cryptoJS = require("crypto-js");
