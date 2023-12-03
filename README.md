@@ -14,9 +14,19 @@ Esta carpeta almacena los certificados de clave pública y privada necesarios pa
 
 Se trata de una carpeta aparte que contiene el archivo `acceder.ejs`. Este archivo es diferente ya que utiliza la extensión `.ejs`, permitiendo la ejecución de una dependencia de **Node.js** llamada **ejs**. Su función es mostrar los datos almacenados en la base de datos desde `server.js`, lo que facilita la visualización de los datos almacenados en la base de datos SQLite.
 
+<p align="center">
+  <img src="https://github.com/Alexandru031/API_REST_Login/blob/main/img_readme/anotaciones.PNG" alt="Descripción de la imagen" width="500px">
+</p>
+
 ### Página de Anotación
 
 El archivo `anotación.html` es un archivo `.html` que permite visualizar y añadir texto de anotación para un usuario. Muestra 2 botones que permiten borrar o añadir anotaciones. Una vez añadida una anotación, se redirecciona a `acceder.ejs`.
+
+
+<p align="center">
+  <img src="https://github.com/Alexandru031/API_REST_Login/blob/main/img_readme/anadir.PNG" alt="Descripción de la imagen" width="500px">
+</p>
+
 
 ### Crear la tabla de base de datos
 
@@ -26,9 +36,17 @@ El archivo `database.js` es un archivo `.js` que facilita la creación de las ta
 
 El archivo `login.html` es un archivo `.html` que permite visualizar el formulario de login para acceder a la cuenta de usuario. Antes de conceder el acceso, valida los datos existentes en la base de datos. Una vez validados, redirecciona a `acceder.ejs`.
 
+<p align="center">
+  <img src="https://github.com/Alexandru031/API_REST_Login/blob/main/img_readme/login.PNG" alt="Descripción de la imagen" width="500px">
+</p>
+
 ### Página de Registrar
 
 El archivo `registrar.html` es un archivo `.html` que muestra el formulario de registro y creación de una cuenta de usuario. Solicita *Nombre de Usuario*, *Correo Electrónico*, *Contraseña* e *Intento de Contraseña*. Además, incluye 2 botones que permiten crear la cuenta de usuario y guardar los datos en la base de datos, o borrar todos los datos del formulario. Una vez creada la cuenta, se redirecciona a `login.html`.
+
+<p align="center">
+  <img src="https://github.com/Alexandru031/API_REST_Login/blob/main/img_readme/registrar.PNG" alt="Descripción de la imagen" width="500px">
+</p>
 
 ### Archivo de API Rest
 
