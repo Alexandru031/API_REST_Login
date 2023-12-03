@@ -13,6 +13,8 @@ const app = express();
 const PORT = 3000;
 const HTTPS_PORT = 3443;
 
+var name_Usuario = "";
+
 // CREA EL PROTOCOLO HTTPS CON LOS CERTIFICADOS PARA ACCEDER ES "https:/localhost:3443/..."
 https
   .createServer(
@@ -43,9 +45,18 @@ app.get("/login", (req, res) => {
   res.sendFile(__dirname + "/login.html");
 });
 
+app.post("/login", (req, res) => {
+  res.sendFile(__dirname + "/login.html");
+});
+
 // MOSTRAR LA PAGINA DE ACCEDER
 app.get("/acceder", (req, res) => {
-  res.sendFile(__dirname + "/acceder.html");
+  res.sendFile(__dirname + "/views/acceder.ejs");
+});
+
+// MOSTRAR LA PAGINA DE ANOTACION
+app.get("/anotacion", (req, res) => {
+  res.sendFile(__dirname + "/anotacion.html");
 });
 
 // GUARDAR EL REGISTRO EN LA BASE DE DATOS
@@ -55,7 +66,6 @@ app.post("/guardarUsuario/", (req, res) => {
     email,
     contrasena,
     contrasena_intento,
-    anotacion,
   } = req.body;
   if (contrasena != contrasena_intento) {
     res.status(400).json({ error: "La contraseña no es lo mismo" });
@@ -81,9 +91,6 @@ app.post("/guardarUsuario/", (req, res) => {
     "secreto"
   );
 
-  // ENCRIPTAR ANOTACION
-  var ciphertext = cryptoJS.AES.encrypt(anotacion, "secreto").toString();
-
   // ALMACENAR LOS DATOS EN BASE DE DATOS
   db.run(
     "INSERT INTO usuarios (name, email, password ,token) VALUES (?, ?, ?, ?)",
@@ -106,17 +113,7 @@ app.post("/guardarUsuario/", (req, res) => {
           res.status(400).json({ error: "Usuario no encontrado" });
           return;
         }
-
-        db.run(
-          "INSERT INTO anotaciones (user_id, anotacion) VALUES (?, ?)",
-          [row_select.id, ciphertext],
-          function (err) {
-            if (err) {
-              return res.status(500).json({ error: err.message });
-            }
             res.redirect('/login'); // Redireccionar a la página del formulario después de guardar
-          }
-        );
       });
     }
   );
@@ -168,27 +165,81 @@ app.post("/accederUsuario", (req, res) => {
       return;
     }
 
-    db.all("SELECT id, anotacion FROM anotaciones WHERE user_id = ?", [row1.id], (err, anotaciones) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
-      }
+    name_Usuario = username_login
+// Dentro de tu ruta /accederUsuario
+db.all("SELECT id, anotacion FROM anotaciones WHERE user_id = ?", [row1.id], (err, ant) => {
+  if (err) {
+    return res.status(500).json({ error: err.message });
+  }
 
-      bcrypt.compare(contrasena_login, row1.password, (bcryptErr, result) => {
-        if (bcryptErr) {
-          res.status(500).json({ error: bcryptErr.message });
-          return;
-        }
-  
-        if (!result) {
-          res.status(400).json({ error: "La contraseña es incorrecta" });
-          return;
-        }
-  
-        res.render("acceder", { anotaciones: anotaciones, nombre: row1.name });
-      });
+  bcrypt.compare(contrasena_login, row1.password, (bcryptErr, result) => {
+    if (bcryptErr) {
+      res.status(500).json({ error: bcryptErr.message });
+      return;
+    }
+
+    if (!result) {
+      res.status(400).json({ error: "La contraseña es incorrecta" });
+      return;
+    }
+
+    // Desencriptar cada anotación en 'ant'
+    const decryptedAnotaciones = ant.map(anotacion => {
+      const bytes = cryptoJS.AES.decrypt(anotacion.anotacion, 'secreto');
+      const decryptedData = bytes.toString(cryptoJS.enc.Utf8);
+      return { id: anotacion.id, anotacion: decryptedData };
     });
+
+    res.render("acceder", { anotaciones: decryptedAnotaciones, nombre: row1.name }); // Envía las anotaciones a la vista
   });
 });
+  });
+});
+
+// AÑADIR UNA ANOTACIÓN
+app.post("/anadirAnotaciones", (req, res) => {
+  const { texto_anotacion } = req.body;
+
+  var sql = "SELECT id, name, password FROM usuarios WHERE name = ?";
+  var params = [name_Usuario];
+
+  db.get(sql, params, (err, row) => {
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+
+    if (!row) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    // Encriptar Anotación
+    let encriptar = cryptoJS.AES.encrypt(texto_anotacion, 'secreto').toString();
+
+    db.run(
+      "INSERT INTO anotaciones (user_id, anotacion) VALUES (?, ?)",
+      [row.id, encriptar], // Reemplaza id_Usuario por row.id
+      function (err) {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+
+        db.all("SELECT id, anotacion FROM anotaciones WHERE user_id = ?", [row.id], (err, ant) => {
+          if (err) {
+            return res.status(500).json({ error: err.message });
+          }
+            // Desencriptar cada anotación en 'ant'
+              const decryptedAnotaciones = ant.map(anotacion => {
+              const bytes = cryptoJS.AES.decrypt(anotacion.anotacion, 'secreto');
+              const decryptedData = bytes.toString(cryptoJS.enc.Utf8);
+              return { id: anotacion.id, anotacion: decryptedData };
+            });
+        
+            res.render("acceder", { anotaciones: decryptedAnotaciones, nombre: row.name }); // Envía las anotaciones a la vista
+          });
+          });
+        });
+
+      });
 
 // Iniciar el servidor
 app.listen(PORT, () => {
