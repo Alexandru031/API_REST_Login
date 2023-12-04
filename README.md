@@ -6,6 +6,17 @@ Antes de probar mi proyecto de login, quiero mostraros una pequeña guía para q
 
 Este repositorio exhibe un sistema de login que permite crear una cuenta de usuario, acceder al usuario validando los datos y crear anotaciones para almacenar en bases de datos. Utilicé **HTML5**, **CSS3**, **JavaScript** y **SQL** para su desarrollo, empleando **Node.js** y **Express.js** como entorno principal. Además, instalé diferentes dependencias en el proyecto Node.js, entre las cuales se encuentran: **https**, **fs**, **sqlite3**, **bcrypt**, **jsonwebtoken**, **crypto.js**, **mkcert**, **ejs** y **path**. El desarrollo del proyecto se extendió aproximadamente por 1 semana. Quedan mejoras pendientes en funcionalidades y corrección de errores.
 
+## ¿Cómo abrir el proyecto?
+
+Si estás interesado en abrir mi proyecto, necesitas cumplir con estos requisitos:
+
+- Tener instalado **Node.js** y **Express.js**.
+- Contar con un sistema de gestión de paquetes como `npm` o `yarn`.
+- Haber instalado algunas dependencias mencionadas anteriormente.
+
+Una vez tengas estos requisitos, ejecuta `npm run start` desde la línea de comandos, como `git` o `terminal`, y accede al navegador web mediante la siguiente URL: `https://localhost:3443/login` o `http://localhost:3000/login`.
+
+
 ### Carpeta de Certificados
 
 Esta carpeta almacena los certificados de clave pública y privada necesarios para acceder a la API mediante el protocolo HTTPS. Contiene 2 archivos: la clave pública `ca.crt` y la clave privada `ca.key`, generados con la paquetería **mkcert** de Node.js utilizando tan solo 4 comandos.
