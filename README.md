@@ -14,7 +14,7 @@ Si estás interesado en abrir mi proyecto, necesitas cumplir con estos requisito
 - Contar con un sistema de gestión de paquetes como `npm` o `yarn`.
 - Haber instalado algunas dependencias mencionadas anteriormente.
 
-Una vez tengas estos requisitos, ejecuta `npm run start` desde la línea de comandos, como `git` o `terminal`, y accede al navegador web mediante la siguiente URL: `https://localhost:3443/login` o `http://localhost:3000/login`.
+Una vez tengas estos requisitos, ejecuta `npm run start` desde la línea de comandos, como `git` o `terminal`, y accede al navegador web mediante la siguiente URL: `https://localhost:3443/login` (recomendado su uso) o `http://localhost:3000/login`.
 
 
 ### Carpeta de Certificados
